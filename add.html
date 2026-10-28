@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Add Club — AUM</title>
+<style>
+  :root{
+    --bg:#071421;
+    --muted:#9aa4b2;
+    --accent:#7c3aed;
+    --academic-gradient: linear-gradient(90deg,#60a5fa,#7c3aed);
+    --sports-gradient: linear-gradient(90deg,#fb923c,#f97316);
+    --cultural-gradient: linear-gradient(90deg,#f472b6,#fb7185);
+    --service-gradient: linear-gradient(90deg,#34d399,#10b981);
+    --tech-gradient: linear-gradient(90deg,#06b6d4,#0ea5e9);
+    --select-fallback:#1f2937;
+  }
+
+  *{box-sizing:border-box}
+  body{
+    margin:0;font-family:Inter,system-ui,Arial;color:#eaf6ff;
+    background:linear-gradient(180deg,#071421,#071827);
+    min-height:100vh;
+  }
+
+  .wrap{max-width:820px;margin:28px auto;padding:20px}
+  .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+  a.back{color:#9ad7ff;text-decoration:none;font-weight:700}
+  .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:18px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
+  label{display:block;color:var(--muted);font-size:13px;margin-bottom:6px}
+  input,select,textarea{width:100%;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit;outline:none}
+  .row{display:flex;gap:12px}
+  .col{flex:1}
+  .actions{display:flex;gap:10px;justify-content:flex-end;margin-top:12px}
+  .btn{padding:10px 14px;border-radius:10px;border:0;cursor:pointer;font-weight:700}
+  .btn.primary{background:linear-gradient(90deg,#7c3aed,#3b82f6);color:white}
+  .img-preview{width:140px;height:92px;border-radius:8px;object-fit:cover;border:1px solid rgba(255,255,255,0.04)}
+  .muted{color:var(--muted);font-size:13px}
+
+
+.select-wrap{
+  position:relative;
+  display:block;
+}
+select{
+  -webkit-appearance:none;
+  -moz-appearance:none;
+  appearance:none;
+  padding-right:40px; 
+  color: #fff; 
+  background: var(--select-fallback);
+}
+
+
+.select-wrap::after{
+  content:"▾";
+  position:absolute;
+  right:12px;
+  top:50%;
+  transform:translateY(-50%);
+  color:rgba(255,255,255,0.9);
+  font-size:12px;
+  pointer-events:none;
+}
+
+
+select option[value="Academic"] {
+  background: linear-gradient(90deg,#60a5fa,#7c3aed) !important;
+  color: white !important;
+}
+select option[value="Sports"] {
+  background: linear-gradient(90deg,#fb923c,#f97316) !important;
+  color: white !important;
+}
+select option[value="Cultural"] {
+  background: linear-gradient(90deg,#f472b6,#fb7185) !important;
+  color: white !important;
+}
+select option[value="Service"] {
+  background: linear-gradient(90deg,#34d399,#10b981) !important;
+  color: white !important;
+}
+select option[value="Tech"] {
+  background: linear-gradient(90deg,#06b6d4,#0ea5e9) !important;
+  color: white !important;
+}
+
+
+select option:hover { filter: brightness(1.05); }
+
+select:focus { box-shadow: 0 0 0 4px rgba(124,58,237,0.12); border-color: rgba(255,255,255,0.12); }
+input:focus, textarea:focus { box-shadow: 0 0 0 4px rgba(59,130,246,0.08); border-color: rgba(255,255,255,0.12); }
+
+
+@media (max-width:520px){
+  .row{flex-direction:column}
+  .select-wrap::after{ right:10px; }
+}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <div>
+        <a class="back" href="index.html">&larr; Back</a>
+        <h2 style="margin:6px 0 0 0">Add New Club</h2>
+        <div style="color:var(--muted);font-size:13px">Create a new club — stored locally in your browser</div>
+      </div>
+      
+    </div>
+
+    <div class="card">
+      <form id="createForm">
+        <div>
+          <label for="name">Club name</label>
+          <input id="name" required placeholder="Robotics Club" />
+        </div>
+
+        <div class="row" style="margin-top:10px">
+          <div class="col">
+            <label for="category">Category</label>
+            <div class="select-wrap">
+              <select id="category" aria-label="Category">
+                <option value="Academic">Academic</option>
+                <option value="Sports">Sports</option>
+                <option value="Cultural">Cultural</option>
+                <option value="Service">Service</option>
+                <option value="Tech">Tech</option>
+              </select>
+            </div>
+          </div>
+          <div class="col">
+            <label for="contact">Contact (email/phone)</label>
+            <input id="contact" placeholder="contact@aum.edu" />
+          </div>
+        </div>
+
+        <div style="margin-top:10px">
+          <label for="tags">Tags (comma separated)</label>
+          <input id="tags" placeholder="robotics,ai,competitions" />
+        </div>
+
+        <div style="margin-top:10px">
+          <label for="desc">Short description</label>
+          <textarea id="desc" rows="4" placeholder="What the club does..."></textarea>
+        </div>
+
+        <div style="margin-top:10px">
+          <label>Club image / logo (optional)</label>
+          <div style="display:flex;gap:12px;align-items:center">
+            <input id="imageFile" type="file" accept="image/*" />
+            <img id="previewImg" class="img-preview" alt="preview" />
+          </div>
+          <div class="muted" style="margin-top:8px">Upload PNG/JPG</div>
+        </div>
+
+        <div class="actions">
+          <a href="index.html" class="btn" style="background:transparent;border:1px solid rgba(255,255,255,0.04);color:#9ad7ff;padding:8px 12px;border-radius:8px;text-decoration:none">Cancel</a>
+          <button class="btn primary" type="submit">Create Club</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+<script src="script.js"></script>
+<script>
+
+  
+  seedClubs();
+
+  const imageFile = document.getElementById('imageFile');
+  const previewImg = document.getElementById('previewImg');
+  const categorySelect = document.getElementById('category');
+
+  
+  imageFile.addEventListener('change', (ev)=>{
+    const f = ev.target.files[0];
+    if(!f) { previewImg.src=''; return; }
+    const reader = new FileReader();
+    reader.onload = e => { previewImg.src = e.target.result; };
+    reader.readAsDataURL(f);
+  });
+
+ 
+  function gradientForCategory(cat){
+    switch((cat||'').toLowerCase()){
+      case 'academic': return getComputedStyle(document.documentElement).getPropertyValue('--academic-gradient').trim();
+      case 'sports': return getComputedStyle(document.documentElement).getPropertyValue('--sports-gradient').trim();
+      case 'cultural': return getComputedStyle(document.documentElement).getPropertyValue('--cultural-gradient').trim();
+      case 'service': return getComputedStyle(document.documentElement).getPropertyValue('--service-gradient').trim();
+      case 'tech': return getComputedStyle(document.documentElement).getPropertyValue('--tech-gradient').trim();
+      default: return 'var(--select-fallback)';
+    }
+  }
+
+  
+  function updateCategoryColor(){
+    const val = categorySelect.value;
+    const grad = gradientForCategory(val);
+    
+    categorySelect.style.backgroundImage = grad.includes('linear-gradient') ? grad : 'none';
+    
+    categorySelect.style.color = '#ffffff';
+    
+    categorySelect.style.borderColor = 'rgba(255,255,255,0.12)';
+  }
+
+  
+  updateCategoryColor();
+  categorySelect.addEventListener('change', updateCategoryColor);
+
+
+  document.getElementById('createForm').addEventListener('submit', (ev)=>{
+    ev.preventDefault();
+    const name = document.getElementById('name').value.trim(); if(!name) return alert('Club name required');
+    const category = document.getElementById('category').value;
+    const contact = document.getElementById('contact').value.trim();
+    const tags = document.getElementById('tags').value.split(',').map(t=>t.trim()).filter(Boolean);
+    const desc = document.getElementById('desc').value.trim();
+
+    const file = imageFile.files[0];
+    if(file){
+      const r = new FileReader();
+      r.onload = (e) => {
+        saveAndRedirect(e.target.result);
+      };
+      r.readAsDataURL(file);
+    } else {
+      saveAndRedirect(null);
+    }
+
+    function saveAndRedirect(imageData){
+      const clubs = getClubs() || [];
+      clubs.unshift({ id: genId(), name, category, contact, tags, description: desc, image: imageData });
+      setClubs(clubs);
+      location.href = 'index.html';
+    }
+  });
+</script>
+</body>
+</html>

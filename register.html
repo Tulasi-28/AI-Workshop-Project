@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Register — AUM Club</title>
+<style>
+  :root{--bg:#071421;--muted:#9aa4b2;--accent:#7c3aed}
+  body{margin:0;font-family:Inter,system-ui,Arial;color:#eaf6ff;background:linear-gradient(180deg,#071421,#071827);min-height:100vh}
+  .wrap{max-width:720px;margin:28px auto;padding:20px}
+  a.back{color:#9ad7ff;text-decoration:none}
+  .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); padding:18px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
+  label{display:block;color:var(--muted);font-size:13px;margin-bottom:6px}
+  input,select{width:100%;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit}
+  .row{display:flex;gap:12px}
+  .col{flex:1}
+  .actions{display:flex;gap:10px;justify-content:flex-end;margin-top:12px}
+  .btn{padding:10px 14px;border-radius:10px;border:0;cursor:pointer;font-weight:700}
+  .btn.primary{background:linear-gradient(90deg,#7c3aed,#3b82f6);color:white}
+  .club-head{display:flex;gap:12px;align-items:center}
+  .club-head img{width:96px;height:64px;border-radius:10px;object-fit:cover;border:1px solid rgba(255,255,255,0.04)}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="back" href="index.html">&larr; Back</a>
+    <h2 style="margin:8px 0 6px 0">Register for Club</h2>
+
+    <div class="card">
+      <div class="club-head" style="margin-bottom:12px">
+        <img id="clubImage" alt="club image" />
+        <div>
+          <div id="clubName" style="font-weight:800;font-size:18px"></div>
+          <div id="clubCategory" style="color:var(--muted);font-size:13px;margin-top:6px"></div>
+        </div>
+      </div>
+
+      <form id="regForm">
+        <div>
+          <label for="fullName">Full name</label>
+          <input id="fullName" required />
+        </div>
+
+        <div class="row" style="margin-top:10px">
+          <div class="col">
+            <label for="major">Major</label>
+            <input id="major" required />
+          </div>
+          <div class="col">
+            <label for="studentId">Student ID</label>
+            <input id="studentId" required />
+          </div>
+        </div>
+
+        <div class="actions">
+          <a href="index.html" class="btn" style="background:transparent;border:1px solid rgba(255,255,255,0.04);color:#9ad7ff;padding:8px 12px;border-radius:8px;text-decoration:none">Cancel</a>
+          <button class="btn primary" type="submit">Submit Registration</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+<script src="script.js"></script>
+<script>
+  function qParam(name){ return (new URLSearchParams(location.search)).get(name); }
+  
+
+  seedClubs();
+  const id = qParam('id'); if(!id){ alert('No id'); location.href='index.html'; }
+  const club = (getClubs()||[]).find(c=>c.id===id); if(!club){ alert('Club not found'); location.href='index.html'; }
+
+  document.getElementById('clubName').textContent = club.name;
+  document.getElementById('clubCategory').textContent = club.category + (club.contact ? ' • ' + club.contact : '');
+  document.getElementById('clubImage').src = club.image ? club.image : generatePlaceholderDataUrl(club.name, club.category);
+
+  document.getElementById('regForm').addEventListener('submit', (ev)=>{
+    ev.preventDefault();
+    const name = document.getElementById('fullName').value.trim(), major = document.getElementById('major').value.trim(), sid = document.getElementById('studentId').value.trim();
+    if(!name||!major||!sid) return alert('Please fill all fields');
+    const regs = getRegs(); regs.push({ id: 'r_' + Math.random().toString(36).slice(2,9), clubId: id, name, major, studentId: sid, timestamp: new Date().toISOString() });
+    setRegs(regs);
+    alert('Registered successfully (saved locally).');
+    location.href='index.html';
+  });
+</script>
+</body>
+</html>
